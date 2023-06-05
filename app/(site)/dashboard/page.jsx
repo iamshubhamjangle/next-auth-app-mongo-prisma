@@ -1,18 +1,10 @@
 "use client";
 
-import { useSession, signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import useAuthentication from "@/app/hook/useAuthentication";
+import { signOut } from "next-auth/react";
 
 const dashboard = () => {
-  const { data: session } = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!session?.user) {
-      router.push("/login");
-    }
-  }, [session]);
+  const session = useAuthentication();
 
   return (
     <div className="text-center">
