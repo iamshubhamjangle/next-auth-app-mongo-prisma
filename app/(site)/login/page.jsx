@@ -6,18 +6,19 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
-  const session = useSession();
   const router = useRouter();
+  const { data: session } = useSession();
+
   const [data, setData] = useState({
     email: "",
     password: "",
   });
 
   useEffect(() => {
-    if (session?.status === "authenticated") {
+    if (session?.user) {
       router.push("/dashboard");
     }
-  });
+  }, [session]);
 
   const loginUser = async (e) => {
     e.preventDefault();
@@ -28,6 +29,7 @@ export default function Login() {
 
       if (callback?.ok && !callback?.error) {
         toast.success("Logged in successfully!");
+        router.replace("/dashboard");
       }
     });
   };

@@ -2,10 +2,17 @@
 
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const dashboard = () => {
   const { data: session } = useSession();
   const router = useRouter();
+
+  useEffect(() => {
+    if (!session?.user) {
+      router.push("/login");
+    }
+  }, [session]);
 
   return (
     <div className="text-center">

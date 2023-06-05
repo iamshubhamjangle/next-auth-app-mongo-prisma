@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function Register() {
   const [data, setData] = useState({
@@ -12,6 +13,7 @@ export default function Register() {
     password: "",
   });
 
+  const { data: session } = useSession();
   const router = useRouter();
 
   const registerUser = async (e) => {
@@ -21,6 +23,12 @@ export default function Register() {
       .then(() => toast.success("User has been registered!"))
       .catch(() => toast.error("Something went wrong!"));
   };
+
+  useEffect(() => {
+    if (session?.user) {
+      router.push("/dashboard");
+    }
+  }, [session]);
 
   return (
     <>
