@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import useAuthentication from "@/app/hook/useAuthentication";
 
 const Protected = () => {
+  // Session is required to display the username in component.
   const session = useAuthentication();
   const router = useRouter();
 

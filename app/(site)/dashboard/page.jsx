@@ -1,28 +1,21 @@
 "use client";
 
-import useAuthentication from "@/app/hook/useAuthentication";
-import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 const dashboard = () => {
-  const session = useAuthentication();
   const router = useRouter();
 
   return (
     <div className="text-center">
-      <h1 className="text-4xl">Dashboard</h1>
-      <p className="text-lg my-12">Hi {session?.user?.email}</p>
+      <h1 className="text-4xl">Public Dashboard Route</h1>
+      <p className="text-lg my-12">
+        Public information which won't require session data.
+      </p>
       <button
         className="bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded mr-5"
         onClick={() => router.replace("/")}
       >
         Home
-      </button>
-      <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        onClick={() => signOut()}
-      >
-        Logout
       </button>
     </div>
   );
