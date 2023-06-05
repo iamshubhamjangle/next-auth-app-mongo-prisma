@@ -1,4 +1,10 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is an Next.js 13 application using app directory.
+
+- Authentication supported: credential authentication, Google oAuth, Github oAuth, and many more (check next.js docs).
+- Prisma + MongoDB setup.
+- Tailwind for easy understanding of code.
+- Protected routes.
+- Toast notifications.
 
 ## Getting Started
 
