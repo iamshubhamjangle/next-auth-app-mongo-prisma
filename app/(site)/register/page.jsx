@@ -6,7 +6,7 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
-export default function Register() {
+export default function Register({ searchParams }) {
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -23,7 +23,15 @@ export default function Register() {
       .then(() =>
         toast.success("Registration successfull! Please login to continue")
       )
-      .then(() => router.replace("/login"))
+      .then(() =>
+        // This makes sure we redirect user back to where he was heading before authentication,
+        // by adding a redirect query param
+        router.replace(
+          searchParams?.redirect
+            ? `/login?redirect=${searchParams?.redirect}`
+            : "/login"
+        )
+      )
       .catch((e) => toast.error(e?.response?.data || "Something went wrong!"));
   };
 

@@ -1,20 +1,22 @@
 "use client";
 
-import { useState, useEffect, useLayoutEffect } from "react";
+import { useState, useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function Login({ searchParams }) {
   const router = useRouter();
+  const pathname = usePathname();
   const { data: session } = useSession();
-
   const [data, setData] = useState({
     email: "",
     password: "",
   });
 
+  // Handle Next Auth Errors. Should be executed on once.
   useEffect(() => {
+    console.log("Login pathname: ", pathname);
     console.log("Login searchParams: ", searchParams);
     if (searchParams?.error === "OAuthAccountNotLinked") {
       router.replace("/login", undefined, { shallow: true });
@@ -22,19 +24,18 @@ export default function Login({ searchParams }) {
     }
   }, []);
 
+  // Once user is authenticated & session is set. Push him back to wherever he was heading OR to home screen
   useEffect(() => {
     if (session?.user) {
-      router.push(
-        searchParams?.redirect ? searchParams?.redirect : "/dashboard"
-      );
+      router.push(searchParams?.redirect ? searchParams?.redirect : "/");
     }
   }, [session]);
 
+  // Try signing in user using signIn function by next-auth
+  // Error present here are received from api/auth/[...nextauth]/route.js
   const loginUser = async (e) => {
     e.preventDefault();
     signIn("credentials", { ...data, redirect: false }).then((callback) => {
-      console.log("signin res callback: ", callback);
-
       if (callback?.error) {
         const signInResponse = JSON.parse(callback.error);
         if (signInResponse?.error) {
@@ -155,7 +156,15 @@ export default function Login({ searchParams }) {
           <p className="mt-10 text-center text-sm text-gray-500">
             Not a member?{" "}
             <a
-              onClick={() => router.replace("/register")}
+              onClick={() => {
+                // This makes sure we redirect user back to where he was heading before authentication,
+                // by adding a redirect query param
+                router.replace(
+                  searchParams?.redirect
+                    ? `/register?redirect=${searchParams?.redirect}`
+                    : "/register"
+                );
+              }}
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 cursor-pointer"
             >
               Register Now!
