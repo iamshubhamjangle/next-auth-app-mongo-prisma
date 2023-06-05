@@ -1,22 +1,14 @@
 "use client";
 
-import { useSession, signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { signOut } from "next-auth/react";
+import useAuthentication from "@/app/hook/useAuthentication";
 
-const dashboard = () => {
-  const { data: session } = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!session?.user) {
-      router.push("/login");
-    }
-  }, [session]);
+const Protected = () => {
+  const session = useAuthentication();
 
   return (
     <div className="text-center">
-      <h1 className="text-4xl">Dashboard</h1>
+      <h1 className="text-4xl">Protected Route</h1>
       <p className="text-lg my-12">Hi {session?.user?.email}</p>
       <button
         className="bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded mr-5"
@@ -34,4 +26,4 @@ const dashboard = () => {
   );
 };
 
-export default dashboard;
+export default Protected;

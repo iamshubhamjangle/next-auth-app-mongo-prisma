@@ -20,8 +20,11 @@ export default function Register() {
     e.preventDefault();
     axios
       .post("/api/register", data)
-      .then(() => toast.success("User has been registered!"))
-      .catch(() => toast.error("Something went wrong!"));
+      .then(() =>
+        toast.success("Registration successfull! Please login to continue")
+      )
+      .then(() => router.replace("/login"))
+      .catch((e) => toast.error(e?.response?.data || "Something went wrong!"));
   };
 
   useEffect(() => {

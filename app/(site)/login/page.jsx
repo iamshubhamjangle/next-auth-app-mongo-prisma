@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-export default function Login() {
+export default function Login({ searchParams }) {
   const router = useRouter();
   const { data: session } = useSession();
 
@@ -15,19 +15,38 @@ export default function Login() {
   });
 
   useEffect(() => {
+    console.log("Login searchParams: ", searchParams);
+    if (searchParams?.error === "OAuthAccountNotLinked") {
+      router.replace("/login", undefined, { shallow: true });
+      toast.error("Your account already exist with same email!");
+    }
+  }, []);
+
+  useEffect(() => {
     if (session?.user) {
-      router.push("/dashboard");
+      router.push(
+        searchParams?.redirect ? searchParams?.redirect : "/dashboard"
+      );
     }
   }, [session]);
 
   const loginUser = async (e) => {
     e.preventDefault();
     signIn("credentials", { ...data, redirect: false }).then((callback) => {
+      console.log("signin res callback: ", callback);
+
       if (callback?.error) {
-        toast.error(callback.error);
+        const signInResponse = JSON.parse(callback.error);
+        if (signInResponse?.error) {
+          toast.error(
+            signInResponse?.message ||
+              "Something went wrong! Please try again later."
+          );
+          return;
+        }
       }
 
-      if (callback?.ok && !callback?.error) {
+      if (callback?.ok) {
         toast.success("Logged in successfully!");
         router.replace("/dashboard");
       }
