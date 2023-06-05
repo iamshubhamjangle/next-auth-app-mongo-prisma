@@ -1,10 +1,12 @@
 "use client";
 
 import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import useAuthentication from "@/app/hook/useAuthentication";
 
 const Protected = () => {
   const session = useAuthentication();
+  const router = useRouter();
 
   return (
     <div className="text-center">

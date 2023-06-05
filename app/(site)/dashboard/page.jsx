@@ -2,9 +2,11 @@
 
 import useAuthentication from "@/app/hook/useAuthentication";
 import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const dashboard = () => {
   const session = useAuthentication();
+  const router = useRouter();
 
   return (
     <div className="text-center">
