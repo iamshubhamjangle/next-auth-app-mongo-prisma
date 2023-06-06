@@ -31,7 +31,7 @@ export default function Login({ searchParams }) {
       toast.success("You are currently Logged In!");
       router.push("/");
     }
-  }, [session]);
+  }, []);
 
   // NextAuth Credential Login
   // Check api/auth/[...nextauth]/route.jsx for more details.

@@ -39,7 +39,7 @@ export default function Register({ searchParams }) {
       toast.success("You are currently Logged In!");
       router.push("/");
     }
-  }, [session]);
+  }, []);
 
   return (
     <>
