@@ -24,11 +24,10 @@ export default function Register({ searchParams }) {
         toast.success("Registration successfull! Please login to continue")
       )
       .then(() =>
-        // This makes sure we redirect user back to where he was heading before authentication,
-        // by adding a redirect query param
+        // After login, callback to requested page.
         router.replace(
-          searchParams?.redirect
-            ? `/login?redirect=${searchParams?.redirect}`
+          searchParams?.callbackUrl
+            ? `/login?callbackUrl=${searchParams?.callbackUrl}`
             : "/login"
         )
       )
@@ -37,7 +36,10 @@ export default function Register({ searchParams }) {
 
   useEffect(() => {
     if (session?.user) {
-      router.push("/dashboard");
+      toast.success(
+        "You are already Logged In! \n Please logout to re-register"
+      );
+      router.push("/");
     }
   }, [session]);
 

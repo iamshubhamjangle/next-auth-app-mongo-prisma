@@ -7,8 +7,10 @@ This is an Next.js 13 application using app directory.
 - Toast notifications.
 
 ## Contributions
-Are Welcomed! 
+
+Are Welcomed!
 I am trying to build a base template for Next 13, MongoDB, Primsa, NextAuth. Which can help getting up with new project quick and easy.
+
 1. Create a branch
 2. Raise Pull Request with brief description to merge to master.
 
@@ -46,3 +48,21 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+### Client Component Functions
+
+```js
+"use client";
+
+import { useRouter } from "next/navigation"; // Programmatically change routes inside Client Components.
+import { usePathname } from "next/navigation"; // Read path name like '/blog/hello?v=2' => '/blog/hello'
+import { useParams } from "next/navigation"; // Read dynamic params like /shop/[tag]/[item]
+import { useSearchParams } from "next/navigation"; // Read query params `/dashboard?search=my-project`
+```
+
+### Server Component Functions
+
+```js
+// Note: redirect() does not require you to use return redirect() due to using the TypeScript never type.
+import { redirect } from "next/navigation"; // redirect('/login'); OR redirect('notFound');
+```

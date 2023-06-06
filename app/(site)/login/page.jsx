@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 export default function Login({ searchParams }) {
   const router = useRouter();
   const { data: session } = useSession();
+
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -15,29 +16,39 @@ export default function Login({ searchParams }) {
 
   // Handle Next Auth Errors. Should be executed on once.
   useEffect(() => {
+    console.log("useEffect 1: searchParams: ", searchParams);
     if (searchParams?.error === "OAuthAccountNotLinked") {
-      router.replace(searchParams?.callbackUrl || "/login", undefined, {
+      const redirectTo = searchParams?.callbackUrl || "/login";
+      router.replace(redirectTo, undefined, {
         shallow: true,
       });
       toast.error("Your account already exist with same email!");
     }
   }, []);
 
-  // Once user is authenticated & session is set. Push him back to wherever he was heading OR to home screen
   useEffect(() => {
     if (session?.user) {
-      router.push(searchParams?.redirect ? searchParams?.redirect : "/");
+      toast.success("You are already Logged In! \n Please logout to re-login");
+      router.push("/");
     }
   }, [session]);
 
   // Try signing in user using signIn function by next-auth
   // Error present here are received from api/auth/[...nextauth]/route.js
-  const loginUser = async (e) => {
+  const handleLoginWithCredentials = async (e) => {
+    console.log("login User");
+
     e.preventDefault();
     signIn("credentials", { ...data, redirect: false }).then((callback) => {
       console.log("Signin callback: ", callback);
       if (callback?.error) {
-        const signInResponse = JSON.parse(callback?.error || {});
+        let signInResponse;
+        try {
+          signInResponse = JSON.parse(callback?.error);
+        } catch (error) {
+          signInResponse = callback?.error;
+        }
+
         if (signInResponse?.error) {
           toast.error(
             signInResponse?.message ||
@@ -49,7 +60,8 @@ export default function Login({ searchParams }) {
 
       if (callback?.ok) {
         toast.success("Logged in successfully!");
-        router.replace("/dashboard");
+        const redirectTo = searchParams?.callbackUrl || "/";
+        router.replace(redirectTo);
       }
     });
   };
@@ -70,7 +82,7 @@ export default function Login({ searchParams }) {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" onSubmit={loginUser}>
+          <form className="space-y-6" onSubmit={handleLoginWithCredentials}>
             <div>
               <label
                 htmlFor="email"
@@ -160,8 +172,8 @@ export default function Login({ searchParams }) {
                 // This makes sure we redirect user back to where he was heading before authentication,
                 // by adding a redirect query param
                 router.replace(
-                  searchParams?.redirect
-                    ? `/register?redirect=${searchParams?.redirect}`
+                  searchParams?.callbackUrl
+                    ? `/register?callbackUrl=${searchParams?.callbackUrl}`
                     : "/register"
                 );
               }}
