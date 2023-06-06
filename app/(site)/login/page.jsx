@@ -14,9 +14,12 @@ export default function Login({ searchParams }) {
     password: "",
   });
 
-  // Handle Next Auth Errors. Should be executed on once.
   useEffect(() => {
-    console.log("useEffect 1: searchParams: ", searchParams);
+    // Handle Next Auth Errors. Should be executed on once.
+    // Replacing the URL to avoid toast notification when we submit and page re-renders
+    // Also there's a bug when we login with an exiting account, using oAuth provider ->
+    // The provider return "OAuthAccountNotLinked". At this moment If we don't replace the URL
+    // and login with valid credential. signIn method will return an "OAuthAccountNotLinked" error in callback.
     if (searchParams?.error === "OAuthAccountNotLinked") {
       const redirectTo = searchParams?.callbackUrl || "/login";
       router.replace(redirectTo, undefined, {
