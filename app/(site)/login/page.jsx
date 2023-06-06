@@ -28,34 +28,20 @@ export default function Login({ searchParams }) {
 
   useEffect(() => {
     if (session?.user) {
-      toast.success("You are already Logged In! \n Please logout to re-login");
+      toast.success("You are currently Logged In!");
       router.push("/");
     }
   }, [session]);
 
-  // Try signing in user using signIn function by next-auth
-  // Error present here are received from api/auth/[...nextauth]/route.js
+  // NextAuth Credential Login
+  // Check api/auth/[...nextauth]/route.jsx for more details.
   const handleLoginWithCredentials = async (e) => {
-    console.log("login User");
-
     e.preventDefault();
     signIn("credentials", { ...data, redirect: false }).then((callback) => {
-      console.log("Signin callback: ", callback);
-      if (callback?.error) {
-        let signInResponse;
-        try {
-          signInResponse = JSON.parse(callback?.error);
-        } catch (error) {
-          signInResponse = callback?.error;
-        }
+      // console.log("handleLoginWithCredentials::Callback::", callback);
 
-        if (signInResponse?.error) {
-          toast.error(
-            signInResponse?.message ||
-              "Something went wrong! Please try again later."
-          );
-          return;
-        }
+      if (callback?.error !== null) {
+        return toast.error(callback?.error);
       }
 
       if (callback?.ok) {

@@ -31,12 +31,7 @@ export const authOptions = {
       async authorize(credentials) {
         // check to see if email and password is there
         if (!credentials.email || !credentials.password) {
-          throw new Error(
-            JSON.stringify({
-              error: true,
-              message: "Email/Password are required fields!",
-            })
-          );
+          throw new Error("Email/Password are required fields!");
         }
 
         // check to see if user exists
@@ -48,9 +43,7 @@ export const authOptions = {
 
         // if no user was found
         if (!user || !user?.hashedPassword) {
-          throw new Error(
-            JSON.stringify({ error: true, message: "Invalid Email/Password!" })
-          );
+          throw new Error("Invalid Email/Password!");
         }
 
         // check to see if password matches
@@ -61,9 +54,7 @@ export const authOptions = {
 
         // if password does not match
         if (!passwordMatch) {
-          throw new Error(
-            JSON.stringify({ error: true, message: "Invalid Email/Password!" })
-          );
+          throw new Error("Invalid Email/Password!");
         }
 
         return user;

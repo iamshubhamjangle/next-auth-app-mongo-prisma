@@ -36,9 +36,7 @@ export default function Register({ searchParams }) {
 
   useEffect(() => {
     if (session?.user) {
-      toast.success(
-        "You are already Logged In! \n Please logout to re-register"
-      );
+      toast.success("You are currently Logged In!");
       router.push("/");
     }
   }, [session]);
