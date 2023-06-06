@@ -35,8 +35,9 @@ export default function Login({ searchParams }) {
   const loginUser = async (e) => {
     e.preventDefault();
     signIn("credentials", { ...data, redirect: false }).then((callback) => {
+      console.log("Signin callback: ", callback);
       if (callback?.error) {
-        const signInResponse = JSON.parse(callback.error);
+        const signInResponse = JSON.parse(callback?.error || {});
         if (signInResponse?.error) {
           toast.error(
             signInResponse?.message ||
