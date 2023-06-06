@@ -3,11 +3,10 @@
 import { useState, useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function Login({ searchParams }) {
   const router = useRouter();
-  const pathname = usePathname();
   const { data: session } = useSession();
   const [data, setData] = useState({
     email: "",
@@ -16,10 +15,10 @@ export default function Login({ searchParams }) {
 
   // Handle Next Auth Errors. Should be executed on once.
   useEffect(() => {
-    console.log("Login pathname: ", pathname);
-    console.log("Login searchParams: ", searchParams);
     if (searchParams?.error === "OAuthAccountNotLinked") {
-      router.replace("/login", undefined, { shallow: true });
+      router.replace(searchParams?.callbackUrl || "/login", undefined, {
+        shallow: true,
+      });
       toast.error("Your account already exist with same email!");
     }
   }, []);
