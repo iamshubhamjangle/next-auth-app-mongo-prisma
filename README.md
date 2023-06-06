@@ -6,6 +6,12 @@ This is an Next.js 13 application using app directory.
 - Protected routes.
 - Toast notifications.
 
+## Contributions
+Are Welcomed! 
+I am trying to build a base template for Next 13, MongoDB, Primsa, NextAuth. Which can help getting up with new project quick and easy.
+1. Create a branch
+2. Raise Pull Request with brief description to merge to master.
+
 ## Getting Started
 
 Install the dependencies
