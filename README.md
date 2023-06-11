@@ -1,3 +1,9 @@
+## [View the application](https://nextauth-iamshubhamjangle.vercel.app/)
+
+<hr>
+
+## Intro
+
 This is an Next.js 13 application using app directory.
 
 - Authentication supported: credential authentication, Google oAuth, Github oAuth, and many more (check next.js docs).
