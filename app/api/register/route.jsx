@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
-import prisma from "../../libs/prismadb";
 import { NextResponse } from "next/server";
+import prisma from "@/app/libs/prismadb";
 
 export async function POST(request) {
   const body = await request.json();
