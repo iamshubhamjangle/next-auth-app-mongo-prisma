@@ -34,7 +34,7 @@ const AuthButtons = () => {
           className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded"
           onClick={() => router.push("/dashboard")}
         >
-          Dashboard
+          Public Route
         </button>
         <button
           className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded"
@@ -42,11 +42,24 @@ const AuthButtons = () => {
         >
           Client Protected Route
         </button>
+
         <button
           className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded"
           onClick={() => router.push("/protected-server")}
         >
           Server Protected Route
+        </button>
+        <button
+          className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => router.push("/matcher-protected-client")}
+        >
+          Matcher Protected Client Route
+        </button>
+        <button
+          className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => router.push("/matcher-protected-server")}
+        >
+          Matcher Protected Server Route
         </button>
         <button
           className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded"
