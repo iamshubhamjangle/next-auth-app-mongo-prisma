@@ -72,3 +72,6 @@ import { useSearchParams } from "next/navigation"; // Read query params `/dashbo
 // Note: redirect() does not require you to use return redirect() due to using the TypeScript never type.
 import { redirect } from "next/navigation"; // redirect('/login'); OR redirect('notFound');
 ```
+
+## More Resources
+Dave Grey NextAuth Tutorial Repo: https://github.com/gitdagray/next-auth-intro
